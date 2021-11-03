@@ -1,0 +1,15 @@
+{
+  "name": "s3-video-processing-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Bascil/s3-file-upload-api.git",
+  "author": "Basil Ndonga <basil.ndonga@iprocu.re>",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-iam-roles-per-function": "^3.1.0",
+    "serverless-plugin-existing-s3": "^2.4.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.846.0"
+  }
+}

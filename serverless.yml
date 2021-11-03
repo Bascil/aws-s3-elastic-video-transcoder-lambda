@@ -1,0 +1,48 @@
+service: s3-video-transcoder-service
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+
+custom:
+  fileUploadBucketName: artisto-raw-video-${self:provider.stage}
+  videoTranscodingPipelineId: 1635602484427-gix9l5
+
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-plugin-existing-s3
+
+functions:
+  s3VideoTranscoder:
+    handler: src/upload.handler
+    name: s3-video-transcoder
+    description: A lambda function that transcodes a video file once uploaded to an S3 bucket based on object created trigger.
+    timeout: 60 # seconds
+    memorySize: 512 # mb
+    events:
+      - s3:
+        bucket: ${self:custom.fileUploadBucketName}
+        event: s3:ObjectCreated:*
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - 's3:PutBucketNotification'
+        Resource: arn:aws:s3:::${self:custom.fileUploadBucketName}/*
+
+      - Effect: Allow
+        Action:
+          - 's3:Put*'
+        Resource: arn:aws:s3:::${self:custom.fileUploadBucketName}/*
+    environment:
+      BUCKET_NAME: ${self:custom.fileUploadBucketName}
+      PIPELINE_ID: ${self:custom.videoTranscodingPipelineId}
+
+resources:
+  Resources:
+    FileBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.fileUploadBucketName}
+        AccessControl: PublicRead
