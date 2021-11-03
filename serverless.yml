@@ -22,9 +22,10 @@ functions:
     timeout: 60 # seconds
     memorySize: 512 # mb
     events:
-      - existingS3:
+      - s3:
           bucket: ${self:custom.fileUploadBucketName}
           event: s3:ObjectCreated:*
+          existing: true
     iamRoleStatements:
       - Effect: 'Allow'
         Action:
