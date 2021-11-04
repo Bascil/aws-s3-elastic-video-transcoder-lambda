@@ -3,10 +3,14 @@ const AWS = require('aws-sdk');
 const BUCKET_NAME = process.env.BUCKET_NAME;
 const PIPELINE_ID = process.env.PIPELINE_ID;
 const TRANSCODER_REGION = process.env.TRANSCODER_REGION;
+const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 
 const transcoder = new AWS.ElasticTranscoder({
   apiVersion: '2012–09–25',
   region: TRANSCODER_REGION,
+  accessKeyId: AWS_ACCESS_KEY_ID,
+  secretAccessKey: AWS_SECRET_ACCESS_KEY,
 });
 
 module.exports.handler = async (event) => {
