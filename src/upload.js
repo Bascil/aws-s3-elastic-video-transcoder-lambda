@@ -14,7 +14,7 @@ module.exports.handler = async (event) => {
   var key = event.Records[0].s3.object.key;
 
   if (bucket !== BUCKET_NAME) {
-    context.fail('Incorrect input bucket');
+    context.fail('Incorrect input bucket specified');
     return;
   }
 
