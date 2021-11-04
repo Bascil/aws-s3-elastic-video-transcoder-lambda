@@ -86,8 +86,6 @@ resources:
         AccessControl: PublicRead
 
     TranscodeVideoPermissionUploadBucket:
-      DependsOn:
-        - TranscodeDashvideoLambdaFunction
       Type: AWS::Lambda::Permission
       Properties:
         Action: 'lambda:InvokeFunction'
@@ -95,8 +93,6 @@ resources:
         SourceArn: 'arn:aws:s3:::${self:custom.videoInputBucketName}'
 
     VideoTranscodedBucket:
-      DependsOn:
-        - PushTranscodedPermissionTranscodedBucket
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.videoOutputBucketName}
