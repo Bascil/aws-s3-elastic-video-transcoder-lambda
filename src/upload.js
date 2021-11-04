@@ -47,7 +47,7 @@ module.exports.handler = async (event) => {
     ],
   };
 
-  console.log('Starting transcoding job');
+  console.log('Starting transcoding job', AWS_ACCESS_KEY_ID);
   transcoder.createJob(params, function (err, data) {
     if (err) {
       console.log(err);
