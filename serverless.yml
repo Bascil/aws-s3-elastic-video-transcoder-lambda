@@ -3,7 +3,7 @@ service: s3-video-transcoder
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: dev
+  stage: staging
   region: us-east-1
 
 custom:
@@ -77,7 +77,7 @@ functions:
 
 resources:
   Resources:
-    VideoUploadBucket:
+    FileBucket:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.videoInputBucketName}
