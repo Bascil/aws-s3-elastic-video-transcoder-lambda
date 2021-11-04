@@ -1,16 +1,17 @@
 const AWS = require('aws-sdk');
 
-var transcoder = new AWS.ElasticTranscoder({
-  apiVersion: '2012–09–25',
-  region: 'us-east-1',
-});
-
 const BUCKET_NAME = process.env.BUCKET_NAME;
+const PIPELINE_ID = process.env.PIPELINE_ID;
+const TRANSCODER_REGION = process.env.TRANSCODER_REGION;
+
+const transcoder = new AWS.ElasticTranscoder({
+  apiVersion: '2012–09–25',
+  region: TRANSCODER_REGION,
+});
 
 module.exports.handler = async (event) => {
   var bucket = event.Records[0].s3.bucket.name;
   var key = event.Records[0].s3.object.key;
-  var pipelineId = process.env.PIPELINE_ID;
 
   if (bucket !== BUCKET_NAME) {
     context.fail('Incorrect input bucket');
@@ -22,7 +23,7 @@ module.exports.handler = async (event) => {
   ); // the object may have spaces
   var newKey = key.split('.')[0];
   var params = {
-    PipelineId: pipelineId,
+    PipelineId: PIPELINE_ID,
     OutputKeyPrefix: newKey + '/',
     Input: {
       Key: srcKey,
