@@ -84,19 +84,12 @@ resources:
       Properties:
         BucketName: ${self:custom.videoInputBucketName}
         AccessControl: PublicRead
-        NotificationConfiguration:
-          LambdaConfigurations:
-            - Event: 's3:ObjectCreated:*'
-              Function:
-                'Fn::GetAtt': [TranscodeDashvideoLambdaFunction, Arn]
 
     TranscodeVideoPermissionUploadBucket:
       DependsOn:
         - TranscodeDashvideoLambdaFunction
       Type: AWS::Lambda::Permission
       Properties:
-        FunctionName:
-          'Fn::GetAtt': [TranscodeDashvideoLambdaFunction, Arn]
         Action: 'lambda:InvokeFunction'
         Principal: 's3.amazonaws.com'
         SourceArn: 'arn:aws:s3:::${self:custom.videoInputBucketName}'
@@ -110,5 +103,3 @@ resources:
         NotificationConfiguration:
           LambdaConfigurations:
             - Event: 's3:ObjectCreated:*'
-              Function:
-                'Fn::GetAtt': [SaveDashtranscodedDashurlLambdaFunction, Arn]
