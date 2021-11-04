@@ -10,7 +10,7 @@ custom:
   functionMemoryLimit: 512
   videoInputBucketName: artisto-raw-video-${self:provider.stage}
   videoOutputBucketName: artisto-optimized-video-${self:provider.stage}
-  videoTranscodingPipelineId: 1635602484427-gix9l5
+  videoTranscodingPipelineId: 1636013154388-l5etbs
 
 plugins:
   - serverless-iam-roles-per-function
