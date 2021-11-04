@@ -78,19 +78,10 @@ functions:
 resources:
   Resources:
     VideoUploadBucket:
-      DependsOn:
-        - TranscodeVideoPermissionUploadBucket
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.videoInputBucketName}
         AccessControl: PublicRead
-
-    TranscodeVideoPermissionUploadBucket:
-      Type: AWS::Lambda::Permission
-      Properties:
-        Action: 'lambda:InvokeFunction'
-        Principal: 's3.amazonaws.com'
-        SourceArn: 'arn:aws:s3:::${self:custom.videoInputBucketName}'
 
     VideoTranscodedBucket:
       Type: AWS::S3::Bucket
