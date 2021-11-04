@@ -73,12 +73,42 @@ functions:
     environment:
       BUCKET_NAME: ${self:custom.videoInputBucketName}
       PIPELINE_ID: ${self:custom.videoTranscodingPipelineId}
-      ELASTIC_TRANSCODER_REGION: us-east-1
+      TRANSCODER_REGION: us-east-1
 
 resources:
   Resources:
-    FileBucket:
+    VideoUploadBucket:
+      DependsOn:
+        - TranscodeVideoPermissionUploadBucket
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.videoInputBucketName}
         AccessControl: PublicRead
+        NotificationConfiguration:
+          LambdaConfigurations:
+            - Event: 's3:ObjectCreated:*'
+              Function:
+                'Fn::GetAtt': [TranscodeDashvideoLambdaFunction, Arn]
+
+    TranscodeVideoPermissionUploadBucket:
+      DependsOn:
+        - TranscodeDashvideoLambdaFunction
+      Type: AWS::Lambda::Permission
+      Properties:
+        FunctionName:
+          'Fn::GetAtt': [TranscodeDashvideoLambdaFunction, Arn]
+        Action: 'lambda:InvokeFunction'
+        Principal: 's3.amazonaws.com'
+        SourceArn: 'arn:aws:s3:::${self:custom.videoInputBucketName}'
+
+    VideoTranscodedBucket:
+      DependsOn:
+        - PushTranscodedPermissionTranscodedBucket
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.videoOutputBucketName}
+        NotificationConfiguration:
+          LambdaConfigurations:
+            - Event: 's3:ObjectCreated:*'
+              Function:
+                'Fn::GetAtt': [SaveDashtranscodedDashurlLambdaFunction, Arn]
