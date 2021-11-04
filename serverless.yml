@@ -87,6 +87,3 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.videoOutputBucketName}
-        NotificationConfiguration:
-          LambdaConfigurations:
-            - Event: 's3:ObjectCreated:*'
