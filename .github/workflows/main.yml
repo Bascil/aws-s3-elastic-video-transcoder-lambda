@@ -23,7 +23,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-v2-${{ hashFiles('**/yarn.lock') }}
 
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1

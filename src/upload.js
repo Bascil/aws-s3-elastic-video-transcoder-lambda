@@ -43,7 +43,7 @@ module.exports.handler = async (event) => {
     ],
   };
 
-  console.log('Starting a job');
+  console.log('Starting transcoding job');
   transcoder.createJob(params, function (err, data) {
     if (err) {
       console.log(err);
