@@ -13,7 +13,7 @@ const transcoder = new AWS.ElasticTranscoder({
   secretAccessKey: AWS_SECRET_ACCESS_KEY,
 });
 
-module.exports.handler = async (event) => {
+module.exports.handler = (event) => {
   var bucket = event.Records[0].s3.bucket.name;
   var key = event.Records[0].s3.object.key;
 
@@ -47,7 +47,7 @@ module.exports.handler = async (event) => {
     ],
   };
 
-  console.log('Starting transcoding job', AWS_ACCESS_KEY_ID);
+  console.log('Starting transcoding job');
   transcoder.createJob(params, function (err, data) {
     if (err) {
       console.log(err);
